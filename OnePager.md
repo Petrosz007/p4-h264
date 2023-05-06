@@ -15,7 +15,7 @@ The P4 program will be developed to process and analyze [RTSP packets](https://w
 
 ### Key Components
 1. **Frame identification and parsing**: The P4 program will identify and parse I and P frames by examining packet headers and payload information. This will be crucial for collecting frame-related statistics.
-2. **Per-stream statistics collection**: The program will maintain a table to record I-frame and P-frame rates for each stream, enabling real-time monitoring and analysis.
+2. **Per-stream statistics collection**: The program will maintain registers to record I-frame and P-frame rates for each stream, enabling real-time monitoring and analysis.
 
 ### Implementation Approach
 To achieve the aforementioned goals, we plan to implement the following approach:
@@ -26,4 +26,4 @@ To achieve the aforementioned goals, we plan to implement the following approach
 By implementing these additional features, the P4 program will be able to efficiently process and manage H264 or H265 video streams within the network.
 
 ## Conclusion
-The proposed P4 program aims to improve network efficiency and QoS by performing real-time in-network investigation of H264 or H265 video streams. By parsing I and P frames, collecting per-stream statistics.
+The proposed P4 program aims to improve network efficiency and QoS by performing real-time in-network investigation of H264 or H265 video streams, by parsing I and P frames, collecting per-stream statistics.
