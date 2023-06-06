@@ -146,6 +146,7 @@ def program_switch(addr, device_id, sw_conf_file, workdir, proto_dump_fpath, run
 
     finally:
         sw.shutdown()
+        sw.ReadCounters("rtspCount")
 
 
 def validateTableEntry(flow, p4info_helper, runtime_json):

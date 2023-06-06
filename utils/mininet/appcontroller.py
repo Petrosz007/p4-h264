@@ -71,6 +71,9 @@ class AppController:
             h.setDefaultRoute("via %s" % link['sw_ip'])
 
         for h in self.net.hosts:
+            # We need to set the maximum transmission unit
+            h.cmd('ifconfig eth0 mtu 40000')
+            
             h_link = list(self.topo._host_links[h.name].values())[0]
             for sw in self.net.switches:
                 path = shortestpath.get(sw.name, h.name, exclude=lambda n: n[0]=='h')

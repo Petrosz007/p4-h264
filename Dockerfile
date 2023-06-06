@@ -37,7 +37,8 @@ RUN apt-get update && \
         iputils-ping \
         # Project Specific
         ffmpeg \
-        vlc
+        vlc \
+        tcpreplay
 
 RUN pip3 install -U scapy ipaddr ptf psutil grpcio \
     # Project specific
