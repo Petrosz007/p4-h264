@@ -45,10 +45,17 @@ s1 = p4runtime_lib.bmv2.Bmv2SwitchConnection(
             device_id=0,
             proto_dump_file='logs/s1-p4runtime-requests.txt')
 
-slice_type_counters = slice_type_counter_values(p4info_helper, s1, "rtspCount")
-total_packets = total_packet_count(p4info_helper, s1, "totalPacketCount")
 
-print(f"Total packets: {total_packets}")
-print("Packet rates:")
-for counter in slice_type_counters:
-    print("Type: {} Count: {} Rate: {:.2f}%".format(counter.index.index, counter.data.packet_count, counter.data.packet_count / total_packets * 100))
+while True:
+    os.system('clear') # Clear the terminal
+
+    slice_type_counters = slice_type_counter_values(p4info_helper, s1, "rtspCount")
+    slice_type_counters.sort(key=lambda x: x.data.packet_count, reverse=True)
+    total_packets = total_packet_count(p4info_helper, s1, "totalFrameCount")
+
+    print(f"Total frames: {total_packets}")
+    print("Frame rates:")
+    for counter in slice_type_counters:
+        print("Type: {:2}\tCount: {}\tRate: {:.2f}%".format(counter.index.index, counter.data.packet_count, counter.data.packet_count / total_packets * 100))
+
+    sleep(2)

@@ -1,9 +1,11 @@
 #include <core.p4>
 #include <v1model.p4>
 
+#define MAX_NAL_UNIT_TYPE 32
 #define MAX_SLICE_TYPE 63
 
 typedef bit<5> slice_type;
+typedef bit<5> nal_unit_type;
 const bit<16> TYPE_IPV4 = 0x800;
 
 header ethernet_t {
@@ -66,7 +68,7 @@ header h264_t {
     bit<1> fuHeaderStart;
     bit<1> fuHeaderEnd;
     bit<1> fuHeaderForbidden;
-    bit<5> fuHeaderNALUnitType;
+    nal_unit_type fuHeaderNALUnitType; // <-- Nah, maybe this?
     bit<1> nalFirst;
     slice_type sliceType; // <-- This is what we need
     bit<2> padding;
@@ -87,7 +89,7 @@ struct metadata {
 
 // Register array
 counter(MAX_SLICE_TYPE, CounterType.packets) rtspCount;
-counter(1, CounterType.packets) totalPacketCount;
+counter(1, CounterType.packets) totalFrameCount;
 
 parser MyParser(packet_in packet, 
                 out headers hdr,
@@ -141,8 +143,8 @@ control MyIngress(inout headers hdr,
                   inout metadata meta,
                   inout standard_metadata_t standard_metadata) {
     apply {
-        if(hdr.h264.isValid()) {
-            totalPacketCount.count(0);
+        if(hdr.h264.isValid() && hdr.h264.fuHeaderStart == 1) {
+            totalFrameCount.count(0);
             rtspCount.count((bit<32>) hdr.h264.sliceType);
         }
 
