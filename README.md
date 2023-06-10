@@ -62,3 +62,4 @@ From looking at the packets in Wireshark we concluded, that slice type 7 is a B 
 
 We only a packet, when the `fuHeaderStart` bit is 1. This means, that this packet contains the start of a frame. This way we can distinguish packets and frames.
 
+The `read_counters.py` script uses the helper functions defined to read counter values form the P4 switches. It reads the counters every one second. It calculates the rates base on the counter value compared to the total number of frames.
